@@ -1,0 +1,146 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.2.1/math.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="script.js"></script>
+<title>Kalkulator-Matrix 3</title>
+
+<div class="container py-4" style="background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%); min-height: 100vh; color: #e0f7fa;">
+  <h2 class="text-center mb-4" style="color:#4dd0e1;">Kalkulator Matriks</h2>
+
+  <!-- Input Ukuran Matriks Center -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-auto">
+      <div class="d-flex justify-content-center align-items-center">
+        <label for="matrix-size" class="form-label mb-0 me-2" style="color:#b2ebf2;">Ukuran Matriks (A &amp; B):</label>
+        <select id="matrix-size" class="form-select d-inline w-auto" style="background:#22313f; color:#b2ebf2; border-color:#4dd0e1;" onchange="setUniversalSize(this.value)">
+          <option value="2">2x2</option>
+          <option value="3">3x3</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center g-4">
+    <!-- Matriks A -->
+    <div class="col-md-5">
+      <div class="card shadow-sm h-100" style="background:#22313f; border:1px solid #4dd0e1;">
+        <div class="card-body">
+          <div class="matrix-label h4 text-center mb-3" style="color:#4dd0e1;">Matriks A</div>
+          <div class="d-flex justify-content-center mb-3">
+            <div id="matrixA-input" class="matrix-input mb-3"></div>
+          </div>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('trans(A)')">Transpos</button>
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('det(A)')">Determinan</button>
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('A^')">Pangkatkan</button>
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('inv(A)')">Invers</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('minor(A)')">Minor</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('kof(A)')">Kofaktor</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('adjoin(A)')">Adjoin</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('OBE(A)')">OBE</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('OKE(A)')">OKE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Matriks B -->
+    <div class="col-md-5">
+      <div class="card shadow-sm h-100" style="background:#22313f; border:1px solid #4dd0e1;">
+        <div class="card-body">
+          <div class="matrix-label h4 text-center mb-3" style="color:#4dd0e1;">Matriks B</div>
+          <div class="d-flex justify-content-center mb-3">
+            <div id="matrixB-input" class="matrix-input mb-3"></div>
+          </div>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('trans(B)')">Transpos</button>
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('det(B)')">Determinan</button>
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('B^')">Pangkatkan</button>
+            <button class="btn btn-sm btn-primary" style="background:#1976d2; border:none;" onclick="insertToExpression('inv(B)')">Invers</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('minor(B)')">Minor</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('kof(B)')">Kofaktor</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('adjoin(B)')">Adjoin</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('OBE(B)')">OBE</button>
+            <button class="btn btn-sm btn-secondary" style="background:#0097a7; border:none; color:#e0f7fa;" onclick="insertToExpression('OKE(B)')">OKE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col text-center">
+      <div class="btn-group" role="group">
+        <button class="btn btn-success" style="background:#26a69a; border:none;" onclick="insertToExpression('A+B')">A + B</button>
+        <button class="btn btn-success" style="background:#26a69a; border:none;" onclick="insertToExpression('A-B')">A - B</button>
+        <button class="btn btn-success" style="background:#26a69a; border:none;" onclick="insertToExpression('A*B')">A x B</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm" style="background:#1b2a38; border:1px solid #4dd0e1;">
+        <div class="card-body">
+          <label for="expression" class="form-label" style="color:#b2ebf2;">Ekspresi Matriks:</label>
+          <div class="input-group mb-2">
+            <input type="text" id="expression" class="form-control" style="background:#22313f; color:#b2ebf2; border-color:#4dd0e1;" placeholder="Contoh: det(A)+inv(B)" onfocus="this.placeholder=''" onblur="this.placeholder='Contoh: det(A)+inv(B)'" />
+            <button class="btn btn-success" style="background:#26a69a; border:none;" onclick="evaluateExpression()">=</button>
+          </div>
+          <div id="result" class="alert p-2" style="background-color: #22313f; color:#4dd0e1; border:1px solid #4dd0e1; min-height:2em"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-8 mx-auto">
+      <div class="card shadow-sm" style="background:#1b2a38; border:1px solid #4dd0e1;">
+        <div class="card-body">
+          <h4 class="mb-3" style="color:#4dd0e1;">Daftar Operasi Matriks yang Didukung:</h4>
+          <ul class="mb-0" style="color:#b2ebf2;">
+            <li><strong>A + B</strong> = Penjumlahan Matriks</li>
+            <li><strong>A - B</strong> = Pengurangan Matriks</li>
+            <li><strong>A x B</strong> = Perkalian Matriks</li>
+            <li><strong>trans(A)</strong> = Transpos Matriks A</li>
+            <li><strong>det(A)</strong> = Determinan Matriks A</li>
+            <li><strong>inv(A)</strong> = Invers Matriks A</li>
+            <li><strong>A^n</strong> = Matriks A dipangkatkan n</li>
+            <li><strong>minor(A)</strong> = Matriks Minor dari A</li>
+            <li><strong>kof(A)</strong> = Matriks Kofaktor dari A</li>
+            <li><strong>adjoin(A)</strong> = Matriks Adjoin dari A</li>
+            <li><strong>OBE(A)</strong> = Operasi Baris Elementer pada A</li>
+            <li><strong>OKE(A)</strong> = Operasi Kolom Elementer pada A</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+body {
+  background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+  color: #e0f7fa;
+}
+.form-control:focus, .form-select:focus {
+  border-color: #4dd0e1;
+  box-shadow: 0 0 0 0.2rem rgba(77,208,225,.25);
+  background: #22313f;
+  color: #b2ebf2;
+}
+input, select, textarea {
+  background: #22313f !important;
+  color: #b2ebf2 !important;
+  border-color: #4dd0e1 !important;
+}
+.card {
+  border-radius: 1rem;
+}
+.btn:focus, .btn:active {
+  box-shadow: 0 0 0 0.2rem rgba(38,166,154,.25) !important;
+}
+
+#expression::placeholder {
+color: #80deea !important;
+opacity: 1;
+}
+</style>
